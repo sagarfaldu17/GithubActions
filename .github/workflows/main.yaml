@@ -110,13 +110,13 @@ jobs:
           path: build-output/ios
 
       - name: check >> ExportOptions.plist is present at ios
-        run: cd build-output/ios && ls
+        run: cd build-output/ios && ls && rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
 
-      - name: delete extra elements except ipa from build-output/ios
-        run: rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
+#      - name: delete extra elements except ipa from build-output/ios
+#        run: rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
 
       - name: check for only ipa
-        run: cd build-output/ios && ls
+        run: ls
 
       - name: Push to Github Releases dashboard
         uses: ncipollo/release-action@v1
