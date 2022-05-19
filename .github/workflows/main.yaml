@@ -75,8 +75,10 @@ jobs:
             <key>provisioningProfiles</key>
             <dict>
               <key>com.mi.flutter</key>
-              <string>88a729c2-4c3a-47d2-87f4-74ece1d50ace</string>
+              <string>MI Flutter Demo</string>
             </dict>
+            <key>CFBundlePackageType</key>
+          	<string>APPL</string>
             <key>teamID</key>
             <string>7224G6JACN</string>
             <key>signingStyle</key>
@@ -125,6 +127,21 @@ jobs:
       #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
 
 
+
+  #- run: |
+    #          flutter build ios --no-codesign
+#          cd build/ios/iphoneos
+#          mkdir Payload
+#          cd Payload
+#          ln -s ../Runner.app
+#          cd ..
+#          zip -r app.ipa Payload
+#      - name: Push to Releases
+#        uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: "build/app/outputs/apk/debug/*,build/ios/iphoneos/app.ipa"
+#          tag: v1.0.${{ github.run_number }}
+#          token: ${{ secrets.TOKEN }}
 
 
 

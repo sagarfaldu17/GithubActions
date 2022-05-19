@@ -1,4 +1,4 @@
-package com.mi.github_actions
+package com.mi.flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

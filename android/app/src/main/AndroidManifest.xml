@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mi.github_actions">
+    package="com.mi.flutter">
    <application
         android:label="github_actions"
         android:name="${applicationName}"
