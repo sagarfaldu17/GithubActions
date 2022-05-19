@@ -42,13 +42,13 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Building iOS release
-        run: |
-          flutter build ios --release
+#      - name: Building iOS release
+#        run: |
+#          flutter build ios --release
       #part1
-      - name: Clean xcodebuild
-        run: |
-          xcodebuild clean -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
+#      - name: Clean xcodebuild
+#        run: |
+#          xcodebuild clean -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
 
       - name: Build xArchive
         run: |
