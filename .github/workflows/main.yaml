@@ -116,7 +116,7 @@ jobs:
 #        run: rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
 
       - name: check for only ipa
-        run: ls
+        run: cd build-output/ios && ls
 
       - name: Push to Github Releases dashboard
         uses: ncipollo/release-action@v1
