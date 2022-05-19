@@ -112,6 +112,19 @@ jobs:
       - name: check >> ExportOptions.plist is present at ios
         run: cd build-output/ios && ls
 
+      - name: delete extra elements except ipa from build-output/ios
+        run: rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
+
+      - name: check for only ipa
+        run: cd build-output/ios && ls
+
+      - name: Push to Github Releases dashboard
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build-output/ios/github_actions.ipa"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.TOKEN }}
+
 
       - name: 'Upload app to TestFlight'
         uses: apple-actions/upload-testflight-build@v1
