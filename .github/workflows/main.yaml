@@ -141,7 +141,7 @@ jobs:
 #      - name: upload app using altool
 #        run: xcrun altool --output-format xml --upload-app --file "build-output/ios/github_actions.ipa" --type ios --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
 
-
+      ##command: xcrun altool --list-providers CCC
       - name: Validate the iPA File
         run: xcrun altool --validate-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
 #        run: xcrun altool --validate-app --type ios --file build-output/ios/github_actions.ipa --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
