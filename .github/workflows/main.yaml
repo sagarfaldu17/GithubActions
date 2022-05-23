@@ -46,9 +46,9 @@ jobs:
 #        run: |
 #          flutter build ios --release
       #part1
-#      - name: Clean xcodebuild
-#        run: |
-#          xcodebuild clean -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
+      - name: Clean xcodebuild
+        run: |
+          xcodebuild clean -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
 
 
 
@@ -127,24 +127,30 @@ jobs:
 #          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
 #          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
 
-      - name: Install private API key P8
-        env:
-          PRIVATE_API_KEY_BASE64: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-          API_KEY: ${{ secrets.APPSTORE_API_KEY_ID }}
-        run: |
-          mkdir -p ~/private_keys
-          echo -n "$PRIVATE_API_KEY_BASE64" | base64 --decode --output ~/private_keys/AuthKey_$API_KEY.p8
-
-      - name: upload app using altool
-        run: xcrun altool --output-format xml --upload-app --file "build-output/ios/github_actions.ipa" --type ios --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
 
 
 
-#      - name: Upload Artifact to Testflight
-#        run: xcrun altool --upload-app --type ios --file "build-output/ios/github_actions.ipa" --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+#      - name: Install private API key P8
 #        env:
-#          APPLE_USER_NAME: ${{secrets.YOUR_APPLE_ACCOUNT_ID}}
-#          APPLE_APP_SPECIFIC_PASSWORD: ${{secrets.YOUR_APP_SPECIFIC_PASSWORD}}
+#          PRIVATE_API_KEY_BASE64: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+#          API_KEY: ${{ secrets.APPSTORE_API_KEY_ID }}
+#        run: |
+#          mkdir -p ~/private_keys
+#          echo -n "$PRIVATE_API_KEY_BASE64" | base64 --decode --output ~/private_keys/AuthKey_$API_KEY.p8
+#
+#      - name: upload app using altool
+#        run: xcrun altool --output-format xml --upload-app --file "build-output/ios/github_actions.ipa" --type ios --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
+
+
+      - name: Validate the iPA File
+        run: xcrun altool --validate-app --type ios --file "build-output/ios/github_actions.ipa" --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+
+
+      - name: Upload Artifact to Testflight
+        run: xcrun altool --upload-app --type ios --file "build-output/ios/github_actions.ipa" --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+        env:
+          APPLE_USER_NAME: ${{secrets.YOUR_APPLE_ACCOUNT_ID}}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{secrets.YOUR_APP_SPECIFIC_PASSWORD}}
 
 
 #            # CD part
