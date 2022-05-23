@@ -146,6 +146,7 @@ jobs:
         run: xcrun altool --validate-app --type ios --file build-output/ios/github_actions.ipa --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
 
 
+
       - name: Upload Artifact to Testflight
         run: xcrun altool --upload-app --type ios --file build-output/ios/github_actions.ipa --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
         env:
