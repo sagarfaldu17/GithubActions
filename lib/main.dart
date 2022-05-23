@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:app_version/src/loading.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'GithubActions Demo Home Page'),
+      home: const MyHomePage(title: 'SF GithubActions'),
     );
   }
 }
@@ -30,13 +35,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +43,37 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: FutureBuilder(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return const Loading();
+            }
+            final packageInfo = snapshot.data;
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Version: ${packageInfo.version} Build: ${packageInfo.buildNumber}',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.roboto(
+                      color: const Color(0xFFff5558),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400),
+                ),
+                const SizedBox(height: 20,),
+                Text(
+                  'Uploaded from CICD pipeline',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.roboto(
+                      color: const Color(0xFFff5558),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400),
+                )
+              ],
+            );
+          },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
