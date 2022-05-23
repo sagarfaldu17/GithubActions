@@ -50,18 +50,16 @@ jobs:
 #        run: |
 #          xcodebuild clean -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
 
+
+
+
+
       - name: Build xArchive
         run: |
           xcodebuild archive -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath build-output/app.xcarchive
 
-      #      - name: check ios folder 1st time
-      #        run: cd ios && ls
-
       - name: check ios folder
         run: cd ios && ls
-
-      #      - name: check build-output folder
-      #        run: cd build-output && ls
 
       - name: create ExportOptions.plist
         run: |
@@ -95,7 +93,6 @@ jobs:
       - name: check >> ExportOptions.plist is present at ios
         run: cd ios && ls
 
-
       - name: Export ipa
         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
@@ -109,11 +106,8 @@ jobs:
           # Path to the release files
           path: build-output/ios
 
-      - name: check >> ExportOptions.plist is present at ios
+      - name: delete extra elements except ipa from build-output/ios
         run: cd build-output/ios && ls && rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
-
-#      - name: delete extra elements except ipa from build-output/ios
-#        run: rm -R DistributionSummary.plist && rm -R ExportOptions.plist && rm -R Packaging.log
 
       - name: check for only ipa
         run: cd build-output/ios && ls
@@ -125,14 +119,28 @@ jobs:
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
 
+#      - name: 'Upload app to TestFlight'
+#        uses: apple-actions/upload-testflight-build@v1
+#        with:
+#          app-path: 'build-output/ios'
+#          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+#          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+#          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+      - name: upload app using altool
+        run: xcrun altool --output-format xml --upload-app --file "build-output/ios/github_actions.ipa" \
+          --type ios --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} \
+          --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
 
-      - name: 'Upload app to TestFlight'
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: 'build-output/ios'
-          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+
+#      - name: Upload Artifact to Testflight
+#        run: xcrun altool --upload-app --type ios --file ./build_artifacts/$(basename $(expo url:ipa)) --username $APPLE_USER_NAME --password $APPLE_APP_SPECIFIC_PASSWORD
+#        env:
+#          APPLE_USER_NAME: ${{secrets.YOUR_APPLE_ACCOUNT_ID}}
+#          APPLE_APP_SPECIFIC_PASSWORD: ${{secrets.YOUR_APP_SPECIFIC_PASSWORD}}
+
+
+
       # - name: Cache Flutter dependencies
       #   uses: actions/cache@v1
       #   with:
