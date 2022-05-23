@@ -149,7 +149,8 @@ jobs:
 
 
       - name: Upload Artifact to Testflight
-        run: xcrun altool --upload-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }} | --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
+        run: xcrun altool --upload-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+#        run: xcrun altool --upload-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }} | --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
         env:
           APPLE_USER_NAME: ${{secrets.USERNAME}}
           APPLE_APP_SPECIFIC_PASSWORD: ${{secrets.PASSWORD}}
