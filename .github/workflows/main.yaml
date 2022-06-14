@@ -74,7 +74,7 @@ jobs:
             <key>CFBundlePackageType</key>
           	<string>APPL</string>
             <key>teamID</key>
-            <string>7224G6JACN</string>
+            <string>722xxxxx YourTeamID</string>
             <key>signingStyle</key>
             <string>automatic</string>
             <key>compileBitcode</key>
