@@ -32,7 +32,7 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.P12_BASE64 }}
           p12-password: ${{ secrets.P12_PASSWORD }}
-      #
+
       - name: Install the provisioning profile
         env:
           PROVISIONING_CERTIFICATE_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
@@ -45,7 +45,6 @@ jobs:
       - name: Building iOS release
         run: |
           flutter build ios --release
-      #part1
 
       - name: Clean xcodebuild
         run: |
@@ -116,69 +115,11 @@ jobs:
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
 
-
-#      - name: 'Upload app to TestFlight'
-#        uses: apple-actions/upload-testflight-build@v1
-#        with:
-#          app-path: 'build-output/ios'
-#          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-#          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-#          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-
-      ##command: xcrun altool --list-providers CCC
-      ##https://developer.apple.com/forums/thread/681186
       - name: Validate the iPA File
         run: xcrun altool --validate-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-#        run: xcrun altool --validate-app --type ios --file build-output/ios/github_actions.ipa --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
 
       - name: Upload ipa to Testflight
         run: xcrun altool --upload-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-#        run: xcrun altool --upload-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }} | --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
         env:
           APPLE_USER_NAME: ${{secrets.USERNAME}}
           APPLE_APP_SPECIFIC_PASSWORD: ${{secrets.PASSWORD}}
-
-
-#            # CD part
-#            - name: Install private API key P8
-#              env:
-#                PRIVATE_API_KEY_BASE64: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-#                API_KEY: ${{ secrets.API_KEY }}
-#              run: |
-#                mkdir -p ~/private_keys
-#                echo -n "$PRIVATE_API_KEY_BASE64" | base64 --decode --output ~/private_keys/AuthKey_$API_KEY.p8
-#
-#      - name: Upload app to TestFlight
-#        run: xcrun altool --output-format xml --upload-app -f path/to/your.ipa -t ios --apiKey $API_KEY --apiIssuer $API_ISSUER
-#        env:
-#          API_KEY: ${{ secrets.API_KEY }}
-#          API_ISSUER: ${{ secrets.API_ISSUER  }}
-
-      # - name: Cache Flutter dependencies
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: /Users/runner/hostedtoolcache/flutter
-      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
-
-
-
-  #- run: |
-    #          flutter build ios --no-codesign
-#          cd build/ios/iphoneos
-#          mkdir Payload
-#          cd Payload
-#          ln -s ../Runner.app
-#          cd ..
-#          zip -r app.ipa Payload
-#      - name: Push to Releases
-#        uses: ncipollo/release-action@v1
-#        with:
-#          artifacts: "build/app/outputs/apk/debug/*,build/ios/iphoneos/app.ipa"
-#          tag: v1.0.${{ github.run_number }}
-#          token: ${{ secrets.TOKEN }}
-
-
-
-
-# push to master, main, develop
-# pull request on main master
