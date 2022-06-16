@@ -57,6 +57,7 @@ jobs:
       - name: check ios folder
         run: cd ios && ls
 
+      # You have to add your teamID
       - name: create ExportOptions.plist
         run: |
           #!/bin/bash
@@ -115,6 +116,7 @@ jobs:
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
 
+      # You have to add your pass to the repo of github
       - name: Validate the iPA File
         run: xcrun altool --validate-app -f build-output/ios/github_actions.ipa -t ios -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
 
